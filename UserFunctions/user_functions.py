@@ -18,6 +18,7 @@ def create_user_model():
     email = str(input("Email Address: "))
 
     user = {
+        "periods": 0,
         "first_name": first_name,
         "last_name": last_name,
         "name": first_name+" "+last_name,
@@ -65,3 +66,21 @@ def search_user(name):
         if get_user_name(contact) == name:
             check = contact
     return check
+
+# Search by full name
+def update_user(query, name):
+    search = search_user(name)
+    if(search):
+        filter = { 'name': name }
+        new_values = {}
+        if(query == '1'):
+            phone_number = str(input("Phone Number: "))
+            new_values = { "$set": { 'phone_number': phone_number } } 
+        if(query == '2'):
+            address = str(input("Address: "))
+            new_values = { "$set": { 'address': address } }
+        users.update_one(filter, new_values)
+        print("Updated")
+    print("No user found!")
+
+
